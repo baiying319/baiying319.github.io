@@ -42,7 +42,7 @@
             font-size: 0.9em;
             line-height: 1;
         }
-        #textInput {
+        #textInput,#textInput2 {
             width: 100%;
             padding: 15px;
             margin-bottom: 20px;
@@ -56,6 +56,9 @@
             box-sizing: border-box;
         }
         #textInput::placeholder {
+            color: #94a3b8;
+        }
+        #textInput2::placeholder {
             color: #94a3b8;
         }
         button {
@@ -76,7 +79,7 @@
         button:active {
             transform: scale(0.98);
         }
-        #output {
+        #output,#output2,#output3 {
             margin-top: 20px;
             font-size: 1em;
             background-color: #f0f4f8;
@@ -85,10 +88,10 @@
             border: 1px solid #d0d9e1;
         }
         .total {
-            font-size: 1.2em;
+            font-size: 1.4em;
             font-weight: bold;
             margin-top: 10px;
-            color: #3494E6;
+            color: red;
             border-top: 2px solid #3494E6;
             padding-top: 10px;
         }
@@ -104,7 +107,7 @@
             border-bottom: none;
         }
 
-        #textInputSP {
+        #textInputSP,#textInputSP2 {
             width: 20%;
             padding: 5px;
             margin-bottom: 5px;
@@ -120,6 +123,9 @@
         #textInputSP::placeholder {
             color: #94a3b8;
         }
+        #textInputSP2::placeholder {
+            color: #94a3b8;
+        }
     </style>
 </head>
 <body>
@@ -133,9 +139,13 @@
         <p>4. 点击"提取金额"按钮获取明细和总金额</p>
     </div>
     <input id="textInputSP" placeholder="分割符号" value=""></input>
-    <textarea id="textInput" placeholder="在此输入需要计算的文本..."></textarea>
-    <button onclick="processText()">提取金额</button>
-    <div id="output"></div>
+    <textarea id="textInput" placeholder="在此输入需要计算的收入金额..."></textarea>
+    <input id="textInputSP2" placeholder="分割符号" value=""></input>
+    <textarea id="textInput2" placeholder="在此输入需要计算的支出金额..."></textarea>
+    <button onclick="processText2()">提取金额</button>
+    <div id="output">收入</div>
+    <div id="output2">支出</div>
+    <div id="output3">结果</div>
 </div>
 
 <script>
@@ -159,9 +169,21 @@
         return line;
     }
 
-    function processText() {
-        const text = document.getElementById("textInput").value;
-        let sp = document.getElementById("textInputSP").value;
+
+    function processText2(){
+        let totalAmount = processText('','收入')
+        let totalAmount2 = processText('2','支出')
+        let result = totalAmount-totalAmount2
+        const totalHtml = `<div class="total">收入${totalAmount}元 - 支出${totalAmount2}元 = ${result} 元</div>`;
+        document.getElementById("output3").innerHTML = totalHtml
+    }
+
+    function processText(id,name) {
+        let inn = 'textInput'+id
+        let oun = 'output'+id
+        let sp2 = 'textInputSP'+id
+        const text = document.getElementById(inn).value;
+        let sp = document.getElementById(sp2).value;
         if(sp==''){
             sp = "\n";
         }
@@ -180,8 +202,10 @@
             }
         });
 
-        const totalHtml = `<div class="total">总金额：${totalAmount} 元</div>`;
-        document.getElementById("output").innerHTML = itemizedHtml + totalHtml;
+        const totalHtml = `<div class="total">${name}总金额：${totalAmount} 元</div>`;
+        document.getElementById(oun).innerHTML = itemizedHtml + totalHtml;
+
+        return totalAmount
     }
 </script>
 </body>
