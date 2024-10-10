@@ -5,126 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>金额提取器</title>
     <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+        * {
+            box-sizing: border-box;
             margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #3494E6, #EC6EAD);
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+            line-height: 1.4;
             color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            background-color: #f0f4f8;
         }
         .container {
-            width: 90%;
-            max-width: 600px;
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            padding: 20px;
+            margin: 0 auto;
         }
         h1 {
-            margin-top: 0;
+            font-size: 1.8em;
+            color: #2c3e50;
             margin-bottom: 20px;
             text-align: center;
-            font-weight: 300;
-            font-size: 2em;
-            color: #3494E6;
         }
         .instructions {
-            background-color: #f0f4f8;
-            border-left: 4px solid #3494E6;
-            padding: 5px;
-            margin-bottom: 5px;
-            border-radius: 0 5px 5px 0;
-            font-size: 0.9em;
-            line-height: 1;
-        }
-        #textInput,#textInput2 {
-            width: 100%;
-            padding: 15px;
+            background-color: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 10px;
             margin-bottom: 20px;
-            background-color: #f0f4f8;
-            border: 1px solid #d0d9e1;
-            border-radius: 10px;
-            color: #333;
-            font-size: 1em;
+            font-size: 0.9em;
+            border-radius: 0 5px 5px 0;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        textarea {
+            height: 100px;
             resize: vertical;
-            min-height: 100px;
-            box-sizing: border-box;
-        }
-        #textInput::placeholder {
-            color: #94a3b8;
-        }
-        #textInput2::placeholder {
-            color: #94a3b8;
         }
         button {
             display: block;
             width: 100%;
-            padding: 15px;
-            background-color: #3494E6;
+            padding: 12px;
+            background-color: #3498db;
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 5px;
+            font-size: 1em;
             cursor: pointer;
-            font-size: 1.1em;
-            transition: background-color 0.3s ease, transform 0.1s ease;
+            transition: background-color 0.3s ease;
         }
         button:hover {
             background-color: #2980b9;
         }
-        button:active {
-            transform: scale(0.98);
-        }
-        #output,#output2,#output3 {
+        .output-container {
             margin-top: 20px;
-            font-size: 1em;
-            background-color: #f0f4f8;
-            border-radius: 10px;
-            padding: 15px;
-            border: 1px solid #d0d9e1;
         }
-        .total {
-            font-size: 1.4em;
-            font-weight: bold;
-            margin-top: 10px;
-            color: red;
-            border-top: 2px solid #3494E6;
-            padding-top: 10px;
+        .output-box {
+            background-color: #fff;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+        .output-box h2 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+            color: #2c3e50;
         }
         .item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.9em;
-            border-bottom: 1px solid #d0d9e1;
-            padding-bottom: 5px;
+            padding: 5px 0;
+            border-bottom: 1px solid #ecf0f1;
         }
         .item:last-child {
             border-bottom: none;
         }
-
-        #textInputSP,#textInputSP2 {
-            width: 20%;
-            padding: 5px;
-            margin-bottom: 5px;
-            background-color: #f0f4f8;
-            border: 1px solid #d0d9e1;
+        .total {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #e74c3c;
+        }
+        #output3 {
+            background-color: #e8f8f5;
+            border: 1px solid #2ecc71;
             border-radius: 5px;
-            color: #333;
-            font-size: 1em;
-            resize: vertical;
-            min-height: 5px;
-            box-sizing: border-box;
-        }
-        #textInputSP::placeholder {
-            color: #94a3b8;
-        }
-        #textInputSP2::placeholder {
-            color: #94a3b8;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+            color: red;
         }
     </style>
 </head>
@@ -138,75 +121,94 @@
         <p>3. 如果文本中没有"元"字，会自动在最后一个数字后添加</p>
         <p>4. 点击"提取金额"按钮获取明细和总金额</p>
     </div>
-    <input id="textInputSP" placeholder="分割符号" value=""></input>
-    <textarea id="textInput" placeholder="在此输入需要计算的收入金额..."></textarea>
-    <input id="textInputSP2" placeholder="分割符号" value=""></input>
-    <textarea id="textInput2" placeholder="在此输入需要计算的支出金额..."></textarea>
-    <button onclick="processText2()">提取金额</button>
-    <div id="output">收入</div>
-    <div id="output2">支出</div>
-    <div id="output3">结果</div>
+    <div class="input-group">
+        <label for="textInputSP">收入分割符号：</label>
+        <input type="text" id="textInputSP" placeholder="默认使用换行">
+    </div>
+    <div class="input-group">
+        <label for="textInput">收入金额：</label>
+        <textarea id="textInput" placeholder="在此输入需要计算的收入金额..."></textarea>
+    </div>
+    <div class="input-group">
+        <label for="textInputSP2">支出分割符号：</label>
+        <input type="text" id="textInputSP2" placeholder="默认使用换行">
+    </div>
+    <div class="input-group">
+        <label for="textInput2">支出金额：</label>
+        <textarea id="textInput2" placeholder="在此输入需要计算的支出金额..."></textarea>
+    </div>
+    <button onclick="processText()">提取金额</button>
+    <div class="output-container">
+        <div id="output" class="output-box">
+            <h2>收入</h2>
+        </div>
+        <div id="output2" class="output-box">
+            <h2>支出</h2>
+        </div>
+    </div>
+    <div id="output3"></div>
 </div>
 
 <script>
-    function formatLine(line) {
-        if (line.trim() === '') return '';
+    function processText() {
+        const income = calculateAmount('', '收入');
+        const expense = calculateAmount('2', '支出');
+        const balance = income - expense;
 
-        let yuanCount = (line.match(/元/g) || []).length;
+        document.getElementById("output3").innerHTML = `
+            <div>收入总额：${income.toFixed(2)}元</div>
+            <div>支出总额：${expense.toFixed(2)}元</div>
+            <div><strong>结余：${balance.toFixed(2)}元</strong></div>
+        `;
+    }
+
+    function calculateAmount(id, type) {
+        const text = document.getElementById(`textInput${id}`).value;
+        const separator = document.getElementById(`textInputSP${id}`).value || '\n';
+        const lines = text.split(separator).filter(line => line.trim() !== '');
+
+        const amounts = lines.map(line => {
+            const cleanedLine = cleanLine(line);
+            const amount = extractAmount(cleanedLine);
+            return { line: cleanedLine, amount };
+        }).filter(item => !isNaN(item.amount) && item.amount > 0);
+
+        //amounts.sort((a, b) => b.amount - a.amount);
+
+        const totalAmount = amounts.reduce((sum, item) => sum + item.amount, 0);
+
+        const outputHtml = amounts.map((item, index) =>
+            `<div class="item"><span>${index + 1}. ${item.line}</span><span>${item.amount.toFixed(2)}元</span></div>`
+        ).join('') + `<div class="total">${type}总金额：${totalAmount.toFixed(2)}元</div>`;
+
+        document.getElementById(`output${id}`).innerHTML = `<h2>${type}</h2>${outputHtml}`;
+
+        return totalAmount;
+    }
+
+    function cleanLine(line) {
+        // 移除多余的空格
+        line = line.trim().replace(/\s+/g, ' ');
+        // 如果有多个"元"字，只保留最后一个
+        const yuanCount = (line.match(/元/g) || []).length;
         if (yuanCount > 1) {
-            let lastIndex = line.lastIndexOf('元');
-            line = line.slice(0, lastIndex).replace(/元/g, '') + line.slice(lastIndex);
+            const lastYuanIndex = line.lastIndexOf('元');
+            line = line.slice(0, lastYuanIndex).replace(/元/g, '') + line.slice(lastYuanIndex);
         }
-
+        // 如果没有"元"字，在最后一个数字后添加
         if (!line.includes('元')) {
-            let match = line.match(/\d+(?!.*\d)/);
+            const match = line.match(/(\d+(?:\.\d+)?)/g);
             if (match) {
-                let index = match.index + match[0].length;
-                line = line.slice(0, index) + '元' + line.slice(index);
+                const lastNumber = match[match.length - 1];
+                line = line.replace(lastNumber, `${lastNumber}元`);
             }
         }
-
         return line;
     }
 
-
-    function processText2(){
-        let totalAmount = processText('','收入')
-        let totalAmount2 = processText('2','支出')
-        let result = totalAmount-totalAmount2
-        const totalHtml = `<div class="total">收入${totalAmount}元 - 支出${totalAmount2}元 = ${result} 元</div>`;
-        document.getElementById("output3").innerHTML = totalHtml
-    }
-
-    function processText(id,name) {
-        let inn = 'textInput'+id
-        let oun = 'output'+id
-        let sp2 = 'textInputSP'+id
-        const text = document.getElementById(inn).value;
-        let sp = document.getElementById(sp2).value;
-        if(sp==''){
-            sp = "\n";
-        }
-        const lines = text.split(sp).map(formatLine);
-        //const pattern = /(\d+)元/;
-        const pattern = /(\d+(?:\.\d+)?)元/;
-        let totalAmount = 0;
-        let itemizedHtml = '';
-
-        let leng = 1
-        lines.forEach(line => {
-            const matcher = line.match(pattern);
-            if (matcher) {
-                const amount = parseFloat(matcher[1]);
-                totalAmount += amount;
-                itemizedHtml += `<div class="item"><span>${leng++}.${line}</span><span>${amount} 元</span></div>`;
-            }
-        });
-
-        const totalHtml = `<div class="total">${name}总金额：${totalAmount} 元</div>`;
-        document.getElementById(oun).innerHTML = itemizedHtml + totalHtml;
-
-        return totalAmount
+    function extractAmount(line) {
+        const match = line.match(/(\d+(?:\.\d+)?)元/);
+        return match ? parseFloat(match[1]) : NaN;
     }
 </script>
 </body>
