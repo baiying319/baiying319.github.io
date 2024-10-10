@@ -188,7 +188,8 @@
             sp = "\n";
         }
         const lines = text.split(sp).map(formatLine);
-        const pattern = /(\d+)元/;
+        //const pattern = /(\d+)元/;
+        const pattern = /(\d+(?:\.\d+)?)元/;
         let totalAmount = 0;
         let itemizedHtml = '';
 
